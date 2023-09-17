@@ -1,8 +1,12 @@
 import React from 'react'
 import Server from 'react-dom/server'
 import useragent from 'useragent';
-import TOUCH from '../build/touch/bundle.cjs';
-import DESKTOP from '../build/desktop/bundle.cjs'
+import Touch from '../build/touch/bundle.cjs';
+import Desktop from '../build/desktop/bundle.cjs';
+
+import fastifyStatic from '@fastify/static';
+
+import path from 'node:path';
 
 import Fastify from 'fastify';
 
@@ -10,21 +14,24 @@ const fastify = Fastify({
     logger: true
 });
 
+fastify.register(fastifyStatic, {
+    root: path.join(__dirname, 'public')
+})
+
 fastify.get('/', async function handler (request, reply) {
     const ua = useragent.is(request.headers['user-agent']);
 
-    let app;
 
-    if (ua.safari_mobile || ua.android) {
-        app = Server.renderToString(<TOUCH />);
-    } else {
-        app = Server.renderToString(<DESKTOP />);
-    }
+    const isTouch = ua.safari_mobile || ua.android;
+
+    const app = Server.renderToString(isTouch ? <Touch /> : <Desktop />);
+    const script = isTouch ? './touch.js' : './desktop.js'
 
     const html = `
         <html>
             <body>
                 <div id="root">${app}</div>
+                <script src="${script}"></script>
             </body>
         </html>
     `

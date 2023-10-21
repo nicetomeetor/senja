@@ -4,4 +4,10 @@
 
 # Senja
 
-Senja is the name of a personal website development project. Inspired by Norway's second largest island and the similar sounding name of the girl I fell in love.
+Senja is a personal website project. Inspired by Norway's second largest island and the similar sounding name of the girl I fell in love.
+
+## Features
+
+- [ ] Build platforms (mobile and desktop) 👷‍♀️
+- [ ] Theme switcher 🌗
+- [ ] Language switcher 🌏

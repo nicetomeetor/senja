@@ -21,7 +21,6 @@ fastify.register(fastifyStatic, {
 fastify.get('/', async function handler (request, reply) {
     const ua = useragent.is(request.headers['user-agent']);
 
-
     const isTouch = ua.safari_mobile || ua.android;
 
     const app = Server.renderToString(isTouch ? <Touch /> : <Desktop />);
